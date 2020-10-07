@@ -25,6 +25,7 @@ services:
       - redis:redis
 
   redis:
+    container_name: "redis_noscope"
     restart: always
     image: redis:latest
     expose:

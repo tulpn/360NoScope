@@ -10,6 +10,25 @@ services:
     volumes:
       - ./logs:/usr/src/app/logs
 
+  telegram_bot:
+    container_name: "noscope_tb"
+    build:
+      context: .
+      dockerfile: ./noscope/Dockerfile
+    env_file: ./noscope/.env.debug
+    entrypoint: ["python", "main_telegram.py"]
+    volumes:
+      - ./logs:/usr/src/app/logs
+    links:
+      - redis:redis
+
+  redis:
+    container_name: "noscope_redis"
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+
   mongodb:
     container_name: "noscope_mongo"
     image: mongo:latest
