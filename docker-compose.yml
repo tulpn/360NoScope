@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  discord_bot:
+    container_name: "noscope_bot"
+    build:
+      context: .
+      dockerfile: ./noscope/Dockerfile
+    env_file: ./noscope/.env
+    entrypoint: ["python", "main.py"]
+    volumes:
+      - ./logs:/usr/src/app/logs
+
+  mongodb:
+    container_name: "noscope_mongo"
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: noscope
+      MONGO_INTIDB_ROOT_USERNAME: root
+      MONGO_INTIDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/noscopbotmongodb
+
+volumes:
+  mongodb_data_container:
